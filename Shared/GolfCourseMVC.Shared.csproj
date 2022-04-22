@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Course\" />
     <Folder Include="Models\Rating\" />
     <Folder Include="Models\Price\" />
   </ItemGroup>

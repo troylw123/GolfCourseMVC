@@ -1,5 +1,6 @@
 using GolfCourseMVC.Server.Data;
 using GolfCourseMVC.Server.Models;
+using GolfCourseMVC.Server.Services.CourseService;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,8 @@ namespace GolfCourseMVC.Server
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<ICourseService, CourseService>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

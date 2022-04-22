@@ -7,4 +7,10 @@
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Course\" />
+    <Folder Include="Models\Rating\" />
+    <Folder Include="Models\Price\" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,47 @@
+﻿@page "/course"
+@using GolfCourseMVC.Shared.Models.Course
+@using Microsoft.AspNetCore.Authorization
+@inject HttpClient http
+@attribute [Authorize]
+
+<h3>Course List</h3>
+<a href="/course/create">Add New Course</a>
+
+@if (_courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Length (yards)</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in _courses)
+            {
+                <tr>
+                    <td><strong>@course.Name</strong></td>
+                    <td>@course.Address</td>
+                    <td>@course.Length</td>
+                    <td>
+                        <a href=@($"course/{course.Id}")>View Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private IEnumerable<CourseListItem> _courses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _courses = await http.GetFromJsonAsync<List<CourseListItem>>("/api/course");
+    }
+}

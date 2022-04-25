@@ -1,0 +1,58 @@
+﻿@page "/course/edit/{Id:int}"
+@using GolfCourseMVC.Shared.Models.Course
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Edit Course #@Model.Id</h3>
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+<div class="container">
+    <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="Model.Name" />
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <InputText class="form-control" @bind-Value="Model.Address" />
+        </div>
+        <div class="form-group">
+            <label>Length in yards (white tees)</label>
+            <InputNumber class="form-control" @bind-Value="Model.Length" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private CourseEdit Model { get; set; }
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await http.GetFromJsonAsync<CourseEdit>($"/api/course/{Id}");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createCourse = await http.PutAsJsonAsync<CourseEdit>($"/api/course/edit/{Id}", Model);
+        if (createCourse.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo($"/course/{Id}");
+        }
+        else
+        {
+            errorMessage = "Could not edit your course at this time. Sorry for the inconvenience.";
+        }
+    }
+}

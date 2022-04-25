@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfCourseMVC.Server", "Server\GolfCourseMVC.Server.csproj", "{007F7B63-1A20-4497-A294-C65146FECAA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolfCourseMVC.Server", "Server\GolfCourseMVC.Server.csproj", "{007F7B63-1A20-4497-A294-C65146FECAA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfCourseMVC.Client", "Client\GolfCourseMVC.Client.csproj", "{2C042102-7A42-41EA-97CC-F8EA1E40A97B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolfCourseMVC.Client", "Client\GolfCourseMVC.Client.csproj", "{2C042102-7A42-41EA-97CC-F8EA1E40A97B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfCourseMVC.Shared", "Shared\GolfCourseMVC.Shared.csproj", "{F3BBC1CF-94C1-4AEA-8F50-461E34A87456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolfCourseMVC.Shared", "Shared\GolfCourseMVC.Shared.csproj", "{F3BBC1CF-94C1-4AEA-8F50-461E34A87456}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

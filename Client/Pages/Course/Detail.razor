@@ -1,4 +1,4 @@
-﻿@page "/course/{Id:int}"
+﻿@page "/course/id/{Id:int}"
 @using GolfCourseMVC.Shared.Models.Course
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
@@ -11,8 +11,8 @@
     <div class="container">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
-                <span>Course #@Course.Id</span>
-                <span class="text-muted"><strong>@Course.Name</strong></span>
+                <span><strong>@Course.Name</strong></span>
+                <span class="text-muted">Course #@Course.Id</span>
             </div>
             <div class="card-body">
                 <p class="card-text">@Course.Address</p>
@@ -21,7 +21,7 @@
             <div class="d-flex justify-content-center mt-3">
                 <div class="text-center justify-content-between w-25">
                     <a href=@($"/course/edit/{Id}") class="btn btn-outline-primary">Edit Course</a>
-                    <a href=@($"/course/delete/{Id}") class="btn btn-outline-danger">Delete Course</a>
+                    <a href=@($"/course/delete/{Id}") class="btn btn-outline-danger mt-1">Delete Course</a>
                     <hr />
                     <a href="/course">Back to Course List</a>
                 </div>
@@ -41,6 +41,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Course = await http.GetFromJsonAsync<CourseDetail>($"/api/course/{Id}");
+        Course = await http.GetFromJsonAsync<CourseDetail>($"/api/course/id/{Id}");
     }
 }

@@ -43,6 +43,7 @@ namespace GolfCourseMVC.Server.Services.CourseService
         {
             var courses = _context.Courses.Select(x => new CourseListItem
             {
+                Id = x.Id,
                 Name = x.Name,
                 Address = x.Address,
                 Length = x.Length,

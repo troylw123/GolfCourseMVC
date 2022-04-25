@@ -22,7 +22,7 @@ namespace GolfCourseMVC.Server.Controllers
 
         private string GetUserId()
         {
-            string userIdClaim = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            string userIdClaim = User.Claims.First(i => i.Type == ClaimTypes.NameIdentifier).Value;
             if (userIdClaim == null) return null;
 
             return userIdClaim;
@@ -46,8 +46,8 @@ namespace GolfCourseMVC.Server.Controllers
             return Ok(courses);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Course(int id)
+        [HttpGet("id/{id}")]
+        public async Task<IActionResult> CourseById(int id)
         {
             if (!SetUserIdInService()) return Unauthorized();
 
@@ -58,8 +58,8 @@ namespace GolfCourseMVC.Server.Controllers
             return Ok(course);
         }
 
-        [HttpGet("{name}")]
-        public async Task<IActionResult> Course(string name)
+        [HttpGet("name/{name}")]
+        public async Task<IActionResult> CourseByName(string name)
         {
             if (!SetUserIdInService()) return Unauthorized();
 
@@ -105,7 +105,5 @@ namespace GolfCourseMVC.Server.Controllers
             if (!wasSuccessful) return BadRequest();
             return Ok();
         }
-
-
     }
 }

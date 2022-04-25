@@ -5,13 +5,15 @@
 @inject HttpClient http
 @inject NavigationManager navigation
 
-<h3>Edit Course #@Model.Id</h3>
+<h3>Edit Course</h3>
 
 @if (errorMessage != null)
 {
     <h5 class="text-danger">@errorMessage</h5>
 }
 
+@if (Model != null)
+{
 <div class="container">
     <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
         <DataAnnotationsValidator />
@@ -31,6 +33,11 @@
         <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
     </EditForm>
 </div>
+}
+else
+{
+    <p>Loading...</p>
+}
 
 @code {
     [Parameter]
@@ -40,7 +47,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await http.GetFromJsonAsync<CourseEdit>($"/api/course/{Id}");
+        Model = await http.GetFromJsonAsync<CourseEdit>($"/api/course/id/{Id}");
     }
 
     private async void HandleSubmit()
@@ -48,7 +55,7 @@
         var createCourse = await http.PutAsJsonAsync<CourseEdit>($"/api/course/edit/{Id}", Model);
         if (createCourse.IsSuccessStatusCode)
         {
-            navigation.NavigateTo($"/course/{Id}");
+            navigation.NavigateTo($"/course/id/{Id}");
         }
         else
         {

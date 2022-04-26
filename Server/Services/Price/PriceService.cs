@@ -57,7 +57,9 @@ namespace GolfCourseMVC.Server.Services.PriceService
 
         public async Task<PriceDetail> GetPriceByIdAsync(int id)
         {
-            var price = await _context.Prices.FirstOrDefaultAsync(x => x.Id == id);
+            var price = await _context.Prices
+                .Include(nameof(Course))
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (price == null) return null;
 
             var detail = new PriceDetail
@@ -94,7 +96,7 @@ namespace GolfCourseMVC.Server.Services.PriceService
             price.AmountPaid = model.AmountPaid;
             price.Time = (Price.TeeTime)model.Time;
             price.CourseId = model.CourseId;
-
+            
             return await _context.SaveChangesAsync() == 1;
         }
 

@@ -27,7 +27,7 @@ else
             @foreach (var price in _prices)
             {
                 <tr>
-                    <td>@price.AmountPaid</td>
+                    <td>@price.AmountPaid.ToString("C0")</td>
                     <td>@price.Time</td>
                     <td>@price.CourseName</td>
                     <td><a href=@($"price/{price.Id}")>Details</a></td>

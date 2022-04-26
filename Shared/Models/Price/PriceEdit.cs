@@ -16,5 +16,6 @@ namespace GolfCourseMVC.Shared.Models.Price
         public TeeTime Time { get; set; }
         public enum TeeTime { weekdayAM, weekdayPM, weekendAM, weekendPM }
         public int CourseId { get; set; }
+        
     }
 }

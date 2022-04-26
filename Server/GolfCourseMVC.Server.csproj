@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Services\Rating\" />
-    <Folder Include="Services\Price\" />
   </ItemGroup>
 
 </Project>

@@ -1,22 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GolfCourseMVC.Server.Models
+namespace GolfCourseMVC.Shared.Models.Price
 {
-    public class Price
+    public class PriceCreate
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public int AmountPaid { get; set; }
         public TeeTime Time { get; set; }
-
         public enum TeeTime { weekdayAM, weekdayPM, weekendAM, weekendPM }
         public DateTime Date { get; set; }
-        [ForeignKey("Course")]
         public int CourseId { get; set; }
-        public virtual Course Course { get; set; }
-
+        
     }
 }

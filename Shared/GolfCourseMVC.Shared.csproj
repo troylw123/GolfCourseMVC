@@ -10,6 +10,5 @@
 
   <ItemGroup>
     <Folder Include="Models\Rating\" />
-    <Folder Include="Models\Price\" />
   </ItemGroup>
 </Project>

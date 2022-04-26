@@ -28,7 +28,7 @@ else
                 <tr>
                     <td><strong>@course.Name</strong></td>
                     <td>@course.Address</td>
-                    <td>@course.Length</td>
+                    <td>@String.Format("{0:n0}", course.Length)</td>
                     <td>
                         <a href=@($"course/id/{course.Id}")>View Details</a>
                     </td>

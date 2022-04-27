@@ -41,12 +41,15 @@ namespace GolfCourseMVC.Server.Services.CourseService
 
         public async Task<IEnumerable<CourseListItem>> GetAllCoursesAsync()
         {
-            var courses = _context.Courses.Select(x => new CourseListItem
+            var courses = _context.Courses.Include(x => x.Ratings)
+                .Include(x => x.Prices).Select(x => new CourseListItem
             {
                 Id = x.Id,
                 Name = x.Name,
                 Address = x.Address,
                 Length = x.Length,
+                Score = x.Score,
+                Cost = x.Cost,
             });
 
             return await courses.ToListAsync();

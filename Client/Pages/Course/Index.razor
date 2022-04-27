@@ -18,7 +18,9 @@ else
             <tr>
                 <th>Name</th>
                 <th>Address</th>
-                <th>Length (yards)</th>
+                <th>Avg Score</th>
+                <th>Avg Cost</th>
+                <th><em>VALUE</em></th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -28,7 +30,12 @@ else
                 <tr>
                     <td><strong>@course.Name</strong></td>
                     <td>@course.Address</td>
-                    <td>@String.Format("{0:n0}", course.Length)</td>
+                    <td>@course.Score</td>
+                    <td>@String.Format("{0:C0}", course.Cost)</td>
+                    @if (course.Cost == 0 || course.Score == 0)
+                    {<td><em>N/A</em></td>}
+                    else
+                    {<td><em>@((course.Score / course.Cost * 100).ToString("F1"))</em></td>}
                     <td>
                         <a href=@($"course/id/{course.Id}")>View Details</a>
                     </td>

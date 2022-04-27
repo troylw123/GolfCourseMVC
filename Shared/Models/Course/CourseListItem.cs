@@ -13,6 +13,8 @@ namespace GolfCourseMVC.Shared.Models.Course
         public string Name { get; set; }
         public string Address { get; set; }
         public int Length { get; set; }
+        public double Score { get; set; }
+        public double Cost { get; set; }
         
     }
 }

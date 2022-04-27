@@ -1,0 +1,71 @@
+﻿@page "/rating/create"
+@using GolfCourseMVC.Shared.Models.Rating
+@using GolfCourseMVC.Shared.Models.Course
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Enter New Rating</h3>
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+@if (courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else{
+<div class="container">
+    <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Score (1-10)</label>
+            <InputNumber class="form-control" @bind-Value="model.Score" />
+        </div>
+        <div class="form-group">
+            <label>Comment (between 10 and 300 characters)</label>
+            <InputText class="form-control" @bind-Value="model.Comment"/>
+        </div>
+        <div class="form-group">
+            <label>Course</label>
+            <InputSelect class="form-control" @bind-Value="model.CourseId">
+                @foreach (var course in courses)
+                {
+                    <option value="@course.Id">@course.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+}
+
+@code {
+    private RatingCreate model = new();
+    private IEnumerable<CourseListItem> courses;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        courses = await http.GetFromJsonAsync<IEnumerable<CourseListItem>>("/api/course");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createRating = await http.PostAsJsonAsync<RatingCreate>("/api/rating", model);
+        if (createRating.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/rating");
+        }
+        else
+        {
+            errorMessage = "Could not enter your rating at this time. Please try again.";
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}
+

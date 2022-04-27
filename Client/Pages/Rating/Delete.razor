@@ -1,0 +1,68 @@
+﻿@page "/rating/delete/{Id:int}"
+@using GolfCourseMVC.Shared.Models.Rating
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Delete This Rating?</h3>
+
+@if (Message != null)
+{
+    <h2 class="text-danger">@Message</h2>
+}
+@if (Rating != null)
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>Rating #@Rating.Id</span>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Score: "@Rating.Score"</h4>
+                <p class="card-text">Course: @Rating.CourseName</p>
+                <p class="card-text">Comment: @Rating.Comment</p>
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-between">
+                <span class="text-left">Entered: @Rating.Date</span>
+            </div>
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                <div class="text-center justify-content-between w-50">
+                    <a href=@($"/rating/{Id}") class="btn btn-outline-primary">Back to Rating Details</a>
+                    <a href="#" @onclick="HandleClick" class="btn btn-danger text-white">Delete Rating</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public RatingDetail Rating { get; set; }
+    public string Message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Rating = await http.GetFromJsonAsync<RatingDetail>($"/api/rating/{Id}");
+    }
+
+    private async void HandleClick()
+    {
+        var deleteRes = await http.DeleteAsync($"/api/rating/{Id}");
+        if(deleteRes.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/rating");
+        }
+        else
+        {
+            Message = "Failed to delete this rating.";
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}
+

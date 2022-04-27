@@ -44,7 +44,7 @@ namespace GolfCourseMVC.Server.Controllers
             return Ok(ratings);
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             if (!SetUserIdInService()) return Unauthorized();

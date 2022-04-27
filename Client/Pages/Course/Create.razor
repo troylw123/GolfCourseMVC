@@ -46,6 +46,7 @@
         else
         {
             errorMessage = "Could not add your course at this time. Sorry for the inconvenience.";
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

@@ -61,6 +61,7 @@ else
         else
         {
             Message = "Failed to delete price entry.";
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

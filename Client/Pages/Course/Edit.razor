@@ -60,6 +60,7 @@ else
         else
         {
             errorMessage = "Could not edit your course at this time. Sorry for the inconvenience.";
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

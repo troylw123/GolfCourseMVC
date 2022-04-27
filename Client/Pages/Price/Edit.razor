@@ -38,7 +38,6 @@ else
         </div>
         <div class="form-group">
             <label>Course</label>
-            <p>@model.CourseId</p>
             <InputSelect class="form-control" @bind-Value="model.CourseId">
                 @foreach (var course in courses)
                 {
@@ -58,7 +57,7 @@ else
     private IEnumerable<CourseListItem> courses;
     private string errorMessage;
     public enum TeeTime { weekdayAM, weekdayPM, weekendAM, weekendPM }
-    
+
     protected override async Task OnInitializedAsync()
     {
         model = await http.GetFromJsonAsync<PriceEdit>($"/api/price/{Id}");
@@ -75,6 +74,7 @@ else
         else
         {
             errorMessage = "Could not update your price at this time. Please try again.";
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

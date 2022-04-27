@@ -65,6 +65,7 @@ namespace GolfCourseMVC.Server.Services.PriceService
             var detail = new PriceDetail
             {
                 Id = price.Id,
+                CourseId = price.Course.Id,
                 CourseName = price.Course.Name,
                 AmountPaid = price.AmountPaid,
                 Time = (PriceDetail.TeeTime)price.Time,

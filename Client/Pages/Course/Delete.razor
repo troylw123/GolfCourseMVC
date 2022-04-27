@@ -58,6 +58,7 @@ else
         else
         {
             Message = "Failed to delete course.";
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

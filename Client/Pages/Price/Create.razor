@@ -70,6 +70,7 @@ else{
         else
         {
             errorMessage = "Could not enter your price at this time. Please try again.";
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

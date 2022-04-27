@@ -1,0 +1,62 @@
+﻿@page "/course/{CourseId:int}/ratings"
+@using GolfCourseMVC.Shared.Models.Course
+@using GolfCourseMVC.Shared.Models.Rating
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+
+@if (Course == null)
+{
+    <h3>Ratings By Course</h3>
+}
+else
+{
+<h3>Ratings for @Course.Name</h3>
+}
+
+<a href="/rating/create">Enter New Rating</a>
+
+@if (_ratings == null)
+{
+    <p><em>Loading...</em></p>
+}
+
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rating #</th>
+                <th>Course</th>
+                <th>Date Posted</th>
+                <th>Score</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rating in _ratings)
+            {
+                <tr>
+                    <td>@rating.Id</td>
+                    <td>@rating.CourseName</td>
+                    <td>@rating.Date</td>
+                    <td><strong>@rating.Score</strong></td>
+                    <td><a href=@($"rating/{rating.Id}")>Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+    private IEnumerable<RatingListItem> _ratings;
+    public CourseListItem Course { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Course = await http.GetFromJsonAsync<CourseListItem>($"/api/course/id/{CourseId}");
+        _ratings = await http.GetFromJsonAsync<List<RatingListItem>>($"/api/rating/course/{CourseId}");
+    }
+}

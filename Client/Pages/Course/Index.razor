@@ -4,6 +4,18 @@
 @inject HttpClient http
 @attribute [Authorize]
 
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    .sort-th {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .fa {
+        float: right;
+    }
+</style>
+
+
 <h3>Course List</h3>
 <a href="/course/create">Add New Course</a>
 
@@ -18,9 +30,9 @@ else
             <tr>
                 <th>Name</th>
                 <th>Address</th>
-                <th>Avg Score</th>
-                <th>Avg Cost</th>
-                <th><em>VALUE</em></th>
+                <th class="sort-th" @onclick="@(()=> SortTable("Score"))">Avg Score<span class="fa @(SetSortIcon("Score"))"></span></th>
+                <th class="sort-th" @onclick="@(()=> SortTable("Cost"))">Avg Cost<span class="fa @(SetSortIcon("Cost"))"></span></th>
+                <th class="sort-th" @onclick="@(()=> SortTable("Value"))"><em>VALUE<span class="fa @(SetSortIcon("Value"))"></span></em></th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -32,10 +44,7 @@ else
                     <td>@course.Address</td>
                     <td>@course.Score</td>
                     <td>@String.Format("{0:C0}", course.Cost)</td>
-                    @if (course.Cost == 0 || course.Score == 0)
-                    {<td><em>N/A</em></td>}
-                    else
-                    {<td><em>@((course.Score / course.Cost * 100).ToString("F1"))</em></td>}
+                    <td>@String.Format("{0:f1}", course.Value)</td>
                     <td>
                         <a href=@($"course/id/{course.Id}")>View Details</a>
                     </td>
@@ -46,9 +55,49 @@ else
 }
 @code {
     private IEnumerable<CourseListItem> _courses;
+    private bool isSortedAscending;
+    private string activeSortColumn;
 
     protected override async Task OnInitializedAsync()
     {
         _courses = await http.GetFromJsonAsync<List<CourseListItem>>("/api/course");
+    }
+
+    private void SortTable(string columnName)
+    {
+        if (columnName != activeSortColumn)
+        {
+            _courses = _courses.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+            isSortedAscending = true;
+            activeSortColumn = columnName;
+        }
+        else
+        {
+            if (isSortedAscending)
+            {
+                _courses = _courses.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+            }
+            else
+            {
+                _courses = _courses.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+            }
+            isSortedAscending = !isSortedAscending;
+        }
+    }
+
+    private string SetSortIcon(string columnName)
+    {
+        if (activeSortColumn != columnName)
+        {
+            return string.Empty;
+        }
+        if (isSortedAscending)
+        {
+            return "fa-sort-up";
+        }
+        else
+        {
+            return "fa-sort-down";
+        }
     }
 }

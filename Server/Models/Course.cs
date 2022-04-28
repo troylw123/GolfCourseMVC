@@ -12,7 +12,7 @@ namespace GolfCourseMVC.Server.Models
         public string Name { get; set; }
         [Required]
         public string Address { get; set; }
-        [Required]
+        
         public int Length { get; set; }
         public double Score
         {
@@ -24,6 +24,11 @@ namespace GolfCourseMVC.Server.Models
             get { return Prices.Count > 0 ?
                     (double)Prices.Select(p => p.AmountPaid).Sum() / Prices.Count : 0; }
         }
+        public double Value
+        {
+            get { return Score / Cost * 100; }
+        }
+        
         public virtual List<Rating> Ratings { get; set; } = new List<Rating>();
         public virtual List<Price> Prices { get; set; } = new List<Price>();
 

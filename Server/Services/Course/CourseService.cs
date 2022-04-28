@@ -50,6 +50,7 @@ namespace GolfCourseMVC.Server.Services.CourseService
                 Length = x.Length,
                 Score = x.Score,
                 Cost = x.Cost,
+                Value = x.Value,
             });
 
             return await courses.ToListAsync();

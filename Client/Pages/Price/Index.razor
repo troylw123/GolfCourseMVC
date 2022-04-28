@@ -47,5 +47,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         _prices = await http.GetFromJsonAsync<List<PriceListItem>>("/api/price");
+        
     }
 }

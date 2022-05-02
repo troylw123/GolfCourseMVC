@@ -13,5 +13,6 @@ namespace GolfCourseMVC.Server.Services.CourseService
         Task<bool> UpdateCourseAsync(CourseEdit model);
         Task<bool> DeleteCourseAsync(int id);
         void SetUserId(string userId);
+        Task<List<CourseListItem>> SearchCourses(string searchText);
     }
 }

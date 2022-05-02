@@ -1,4 +1,5 @@
-﻿using GolfCourseMVC.Server.Services.CourseService;
+﻿using GolfCourseMVC.Server.Data;
+using GolfCourseMVC.Server.Services.CourseService;
 using GolfCourseMVC.Shared.Models.Course;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace GolfCourseMVC.Server.Controllers
 {
@@ -14,10 +17,12 @@ namespace GolfCourseMVC.Server.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
+        private readonly ApplicationDbContext _context;
 
-        public CourseController(ICourseService courseService)
+        public CourseController(ICourseService courseService, ApplicationDbContext context)
         {
             _courseService = courseService;
+            _context = context;
         }
 
         private string GetUserId()
@@ -41,7 +46,8 @@ namespace GolfCourseMVC.Server.Controllers
         public async Task<IActionResult> Index()
         {
             if (!SetUserIdInService()) return Unauthorized();
-            
+            //var courses = await _context.Courses.FromSqlRaw("SELECT * FROM Courses").ToListAsync();
+
             var courses = await _courseService.GetAllCoursesAsync();
             return Ok(courses);
         }
@@ -104,6 +110,12 @@ namespace GolfCourseMVC.Server.Controllers
             bool wasSuccessful = await _courseService.DeleteCourseAsync(id);
             if (!wasSuccessful) return BadRequest();
             return Ok();
+        }
+
+        [HttpGet("Search/{searchText}")]
+        public async Task<ActionResult<List<CourseListItem>>> SearchCourses(string searchText)
+        {
+            return Ok(await _courseService.SearchCourses(searchText));  
         }
     }
 }

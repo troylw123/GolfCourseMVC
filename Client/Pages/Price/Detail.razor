@@ -14,9 +14,22 @@
                 <span>Price Entry #@Price.Id</span>
             </div>
             <div class="card-body">
-                <h4 class="card-title">Cost: @Price.AmountPaid.ToString("C0")</h4>
-                <p class="card-text">Time Played: @Price.Time</p>
-                <p class="card-text">Course: @Price.CourseName</p>
+                <table class="table">
+                    <tr>
+                        <th>Cost:</th>
+                        <td>@Price.AmountPaid.ToString("C0")</td>
+                    </tr>
+                    <tr>
+                        <th>Time Played:</th>
+                        <td>@Price.Time</td>
+                    </tr>
+                    <tr>
+                        <th>Course: </th>
+                        <td>@Price.CourseName</td>
+                    </tr>
+                </table>
+                    <hr/>
+            
             </div>
             <div class="card-footer text-muted d-flex justify-content-between">
                 <span class="text-left">Entered: @Price.Date</span>

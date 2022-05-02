@@ -58,7 +58,8 @@ namespace GolfCourseMVC.Server.Services.CourseService
 
         public async Task<CourseDetail> GetCourseByIdAsync(int id)
         {
-            var course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == id);
+            var course = await _context.Courses.Include(x => x.Ratings)
+                .Include(x => x.Prices).FirstOrDefaultAsync(x => x.Id == id);
             if (course == null) return null;
 
             var detail = new CourseDetail
@@ -67,6 +68,9 @@ namespace GolfCourseMVC.Server.Services.CourseService
                 Name = course.Name,
                 Address = course.Address,
                 Length = course.Length,
+                Score = course.Score,
+                Cost = course.Cost,
+                Value = course.Value,
             };
 
             return detail;
@@ -103,5 +107,23 @@ namespace GolfCourseMVC.Server.Services.CourseService
         }
 
         public void SetUserId(string userId) => _userId = userId;
+
+        public async Task<List<CourseListItem>> SearchCourses(string searchText)
+        {
+            var courses = _context.Courses.Where(x => x.Name.Contains(searchText))
+                .Include(x => x.Ratings)
+                .Include(x => x.Prices).Select(x => new CourseListItem
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Address = x.Address,
+                    Length = x.Length,
+                    Score = x.Score,
+                    Cost = x.Cost,
+                    Value = x.Value,
+                });
+
+            return await courses.ToListAsync();
+        }
     }
 }

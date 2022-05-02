@@ -61,6 +61,9 @@ else
     protected override async Task OnInitializedAsync()
     {
         _courses = await http.GetFromJsonAsync<List<CourseListItem>>("/api/course");
+        activeSortColumn = "Value";
+        isSortedAscending = true;
+        SortTable("Value");
     }
 
     private void SortTable(string columnName)

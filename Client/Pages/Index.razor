@@ -4,11 +4,12 @@
 @inject HttpClient http
 @inject NavigationManager navigation
 @attribute [Authorize]
+@using Blazor.WeatherWidget
 
 <div class="ml-5">
     <h1>Indy Value Golf</h1>
     <p>Find out which golf courses provide the most value in the Indianapolis area</p>
-    Search For A Course By Name:
+
     <div class="w-50">
         <BlazoredTypeahead SearchMethod="@SearchCourses"
                            TValue="CourseListItem"
@@ -16,7 +17,7 @@
                            Value="selectedCourse"
                            ValueChanged="HandleSearch"
                            ValueExpression="@(()=> selectedCourse)"
-                           placeholder="Enter course name here">
+                           placeholder="Search For a Course By Name">
             <SelectedTemplate>
                 @context.Name
             </SelectedTemplate>
@@ -29,8 +30,15 @@
         </BlazoredTypeahead>
     </div>
     <br />
-    <a href="/course">View All Courses</a><br />
+    <a href="/course" id="view">View All Courses</a><br />
 </div>
+
+
+<style>
+    #view {
+        background-color: white;
+    }
+</style>
 
 
 @code {

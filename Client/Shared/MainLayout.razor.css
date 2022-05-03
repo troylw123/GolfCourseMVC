@@ -10,8 +10,7 @@
 }
 
 .sidebar {
-    background: radial-gradient(gray, black);
-    
+    background: linear-gradient(#660000, gray);
 }
 
 .top-row {
@@ -61,7 +60,7 @@
     }
 
     .sidebar {
-        width: 250px;
+        width: 225px;
         height: 100vh;
         position: sticky;
         top: 0;

@@ -5,29 +5,32 @@
 @inject NavigationManager navigation
 @attribute [Authorize]
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<BlazoredTypeahead SearchMethod="@SearchCourses"
-                    TValue="CourseListItem"
-                    TItem="CourseListItem"
-                    Value="selectedCourse"
-                    ValueChanged="HandleSearch"
-                    ValueExpression="@(()=> selectedCourse)"
-                    placeholder="Search..."
->
-    <SelectedTemplate>
-        @context.Name
-    </SelectedTemplate>
-    <ResultTemplate>
-        @context.Name
-    </ResultTemplate>
-    <NotFoundTemplate>
-        Sorry, no courses match the name entered.
-    </NotFoundTemplate>
-</BlazoredTypeahead>
-   
+<div class="ml-5">
+    <h1>Indy Value Golf</h1>
+    <p>Find out which golf courses provide the most value in the Indianapolis area</p>
+    Search For A Course By Name:
+    <div class="w-50">
+        <BlazoredTypeahead SearchMethod="@SearchCourses"
+                           TValue="CourseListItem"
+                           TItem="CourseListItem"
+                           Value="selectedCourse"
+                           ValueChanged="HandleSearch"
+                           ValueExpression="@(()=> selectedCourse)"
+                           placeholder="Enter course name here">
+            <SelectedTemplate>
+                @context.Name
+            </SelectedTemplate>
+            <ResultTemplate>
+                @context.Name
+            </ResultTemplate>
+            <NotFoundTemplate>
+                Sorry, no courses match the name entered.
+            </NotFoundTemplate>
+        </BlazoredTypeahead>
+    </div>
+    <br />
+    <a href="/course">View All Courses</a><br />
+</div>
 
 
 @code {
@@ -43,7 +46,7 @@ Welcome to your new app.
     }
     public async Task<IEnumerable<CourseListItem>> SearchCourses(string searchText)
     {
-        return await http.GetFromJsonAsync<List<CourseListItem>>($"api/Course/Search/{searchText}");        
+        return await http.GetFromJsonAsync<List<CourseListItem>>($"api/Course/Search/{searchText}");
 
     }
 

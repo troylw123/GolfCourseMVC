@@ -1,12 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-<div class="top-row pl-4 navbar navbar-dark">
+@* <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">GolfCourseMVC</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
+</div> *@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
@@ -17,7 +17,7 @@
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="course">
-                <span class="oi oi-plus" aria-hidden="true"></span> Courses
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Courses
             </NavLink>
         </li>
         <li class="nav-item px-3">

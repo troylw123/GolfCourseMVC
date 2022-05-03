@@ -2,11 +2,15 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-image: url(/assets/golfclipart.jpg);
+    background-size: cover;
+    
 }
 
 a, .btn-link {
-    color: #0366d6;
+    color: blue;
 }
+
 
 .btn-primary {
     color: #fff;
@@ -48,3 +52,13 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.table {
+    background-color: rgb(128, 128, 128, 0.1);
+}
+
+h1, h3 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    margin-bottom: .5em;
+}

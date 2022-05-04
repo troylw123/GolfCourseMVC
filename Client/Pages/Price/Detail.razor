@@ -1,0 +1,62 @@
+﻿@page "/price/{Id:int}"
+@using GolfCourseMVC.Shared.Models.Price
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+
+<h3>Price Entry</h3>
+
+@if (Price != null)
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>Price Entry #@Price.Id</span>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>Cost:</th>
+                        <td>@Price.AmountPaid.ToString("C0")</td>
+                    </tr>
+                    <tr>
+                        <th>Time Played:</th>
+                        <td>@Price.Time</td>
+                    </tr>
+                    <tr>
+                        <th>Course: </th>
+                        <td>@Price.CourseName</td>
+                    </tr>
+                </table>
+                    
+            
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-between">
+                <span class="text-left">Entered: @Price.Date</span>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <div class="text-center justify-content-between w-25">
+                    <a href=@($"/price/edit/{Id}") class="btn btn-outline-primary">Edit Entry</a>
+                    <a href=@($"/price/delete/{Id}") class="btn btn-outline-danger mt-1">Delete Entry</a>
+                    <hr />
+                    <a href="/price">Back to All Price Entries</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p><em>Loading...</em></p>
+}
+
+@code {
+    [Parameter]
+    public int Id {get; set;}
+    public PriceDetail Price { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Price = await http.GetFromJsonAsync<PriceDetail>($"/api/price/{Id}");
+    }
+}

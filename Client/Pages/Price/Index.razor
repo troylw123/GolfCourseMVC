@@ -1,0 +1,52 @@
+﻿@page "/price"
+@using GolfCourseMVC.Shared.Models.Price
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+
+
+<h3>All Price Entries</h3>
+<a href="/price/create">Enter New Price</a>
+
+@if (_prices == null)
+{
+    <p><em>Loading...</em></p>
+}
+
+else
+{
+    <table class="table sortable">
+        <thead>
+            <tr>
+                <th>Entry #</th>
+                <th>Course</th>
+                <th>Tee Time</th>
+                <th>Price Paid</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var price in _prices)
+            {
+                <tr class="item">
+                    <td>@price.Id</td>
+                    <td>@price.CourseName</td>
+                    <td>@price.Time</td>
+                    <td><strong>@price.AmountPaid.ToString("C0")</strong></td>
+                    <td><a href=@($"price/{price.Id}")>Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private IEnumerable<PriceListItem> _prices;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _prices = await http.GetFromJsonAsync<List<PriceListItem>>("/api/price");
+        
+    }
+}

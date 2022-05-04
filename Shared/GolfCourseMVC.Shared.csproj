@@ -5,12 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+    <PackageReference Include="Blazor.WeatherWidget" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Course\" />
-    <Folder Include="Models\Rating\" />
-    <Folder Include="Models\Price\" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,75 @@
+﻿@page "/course/id/{Id:int}"
+@using GolfCourseMVC.Shared.Models.Course
+@using GolfCourseMVC.Shared.Models.Price
+@using GolfCourseMVC.Shared.Models.Rating
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+
+<h3>Course Details</h3>
+
+@if (Course != null)
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span><strong>@Course.Name</strong></span>
+                <span class="text-muted">Course #@Course.Id</span>
+            </div>
+            <div class="card-body">
+                  <table class="table">
+                    <tr>
+                        <th>Address: </th>
+                        <td>@Course.Address</td>
+                    </tr>
+                    <tr>
+                        <th>Length: </th>
+                        <td>@Course.Length yards</td>
+                    </tr>
+                    <tr>
+                        <th>Average Rating: </th>
+                        <td>@Course.Score &nbsp; (Based on @Ratings.Count() Ratings)</td>
+                    </tr>
+                    <tr>
+                        <th>Average Price: </th>
+                        <td>@Course.Cost.ToString("C0") &nbsp; (Based on @Prices.Count() Prices)</td>
+                    </tr>
+                    <tr>
+                        <th>Value: </th>
+                        <td class="font-weight-bold">@Course.Value.ToString("f1")</td>
+                    </tr>
+                </table>
+                
+            </div>
+            <div class="d-flex justify-content-center m-3">
+                <div class="text-center justify-content-between w-75">
+                    <a href=@($"/course/{Id}/ratings") class="btn btn-outline-warning">View Ratings</a>
+                    <a href=@($"/course/{Id}/prices") class="btn btn-outline-success">View Prices</a>
+                    <a href=@($"/course/edit/{Id}") class="btn btn-outline-primary">Edit Course</a>
+                    <a href=@($"/course/delete/{Id}") class="btn btn-outline-danger">Delete Course</a>
+                    <hr />
+                    <a href="/course">Back to Course List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public CourseDetail Course { get; set; }
+    public IEnumerable<RatingListItem> Ratings { get; set; }
+    public IEnumerable<PriceListItem> Prices { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Course = await http.GetFromJsonAsync<CourseDetail>($"/api/course/id/{Id}");
+        Ratings = await http.GetFromJsonAsync<List<RatingListItem>>($"/api/rating/course/{Id}");
+        Prices = await http.GetFromJsonAsync<List<PriceListItem>>($"/api/price/course/{Id}");
+    }
+}

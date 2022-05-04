@@ -1,0 +1,53 @@
+﻿@page "/course/create"
+@using GolfCourseMVC.Shared.Models.Course
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Add New Course</h3>
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+<div class="container">
+    <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="model.Name" />
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <InputText class="form-control" @bind-Value="model.Address" />
+        </div>
+        <div class="form-group">
+            <label>Length (white tees)</label>
+            <InputNumber class="form-control" @bind-Value="model.Length" />
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    private CourseCreate model = new();
+    private string errorMessage;
+
+    private async void HandleSubmit()
+    {
+        var createCourse = await http.PostAsJsonAsync<CourseCreate>("/api/course", model);
+        if (createCourse.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/course");
+        }
+        else
+        {
+            errorMessage = "Could not add your course at this time. Sorry for the inconvenience.";
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

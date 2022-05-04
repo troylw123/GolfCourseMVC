@@ -1,0 +1,76 @@
+﻿@page "/price/create"
+@using GolfCourseMVC.Shared.Models.Price
+@using GolfCourseMVC.Shared.Models.Course
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Enter New Price Info</h3>
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+@if (courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else{
+<div class="container">
+    <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Price Paid</label>
+            <InputNumber class="form-control" @bind-Value="model.AmountPaid" />
+        </div>
+        <div class="form-group">
+            <label>Tee Time</label>
+            <InputSelect class="form-control" @bind-Value="model.Time">
+                @foreach (var value in Enum.GetValues(typeof(TeeTime)))
+                {
+                    <option>@value</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="form-group">
+            <label>Course</label>
+            <InputSelect class="form-control" @bind-Value="model.CourseId">
+                @foreach (var course in courses)
+                {
+                    <option value="@course.Id">@course.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+}
+
+@code {
+    private PriceCreate model = new();
+    private IEnumerable<CourseListItem> courses;
+    private string errorMessage;
+    public enum TeeTime { weekdayAM, weekdayPM, weekendAM, weekendPM }
+
+    protected override async Task OnInitializedAsync()
+    {
+        courses = await http.GetFromJsonAsync<IEnumerable<CourseListItem>>("/api/course");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createPrice = await http.PostAsJsonAsync<PriceCreate>("/api/price", model);
+        if (createPrice.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/price");
+        }
+        else
+        {
+            errorMessage = "Could not enter your price at this time. Please try again.";
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

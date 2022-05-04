@@ -1,0 +1,63 @@
+﻿@page "/rating/{Id:int}"
+@using GolfCourseMVC.Shared.Models.Rating
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+
+<h3>Rating Details</h3>
+
+@if (Rating != null)
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>Rating #@Rating.Id</span>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>Score:</th>
+                        <td>@Rating.Score</td>
+                    </tr>
+                    <tr>
+                        <th>Course:</th>
+                        <td>@Rating.CourseName</td>
+                    </tr>
+                    <tr>
+                        <th>Comment: </th>
+                        <td><q>@Rating.Comment</q></td>
+                    </tr>
+                </table>
+                    
+                
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-between">
+                <span class="text-left">Entered: @Rating.Date</span>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <div class="text-center justify-content-between w-25">
+                    <a href=@($"/rating/edit/{Id}") class="btn btn-outline-primary">Edit Rating</a>
+                    <a href=@($"/rating/delete/{Id}") class="btn btn-outline-danger mt-1">Delete Rating</a>
+                    <hr />
+                    <a href="/rating">Back to All Ratings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p><em>Loading...</em></p>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public RatingDetail Rating { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Rating = await http.GetFromJsonAsync<RatingDetail>($"/api/rating/{Id}");
+    }
+}
+

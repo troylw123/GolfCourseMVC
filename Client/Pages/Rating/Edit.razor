@@ -1,0 +1,75 @@
+﻿@page "/rating/edit/{Id:int}"
+@using GolfCourseMVC.Shared.Models.Rating
+@using GolfCourseMVC.Shared.Models.Course
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Edit This Rating</h3>
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+@if (courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else{
+<div class="container">
+    <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Score (1-10)</label>
+            <InputNumber class="form-control" @bind-Value="model.Score" />
+        </div>
+        <div class="form-group">
+            <label>Comment (between 10 and 300 characters)</label>
+            <InputText class="form-control" @bind-Value="model.Comment"/>
+        </div>
+        <div class="form-group">
+            <label>Course</label>
+            <InputSelect class="form-control" @bind-Value="model.CourseId">
+                @foreach (var course in courses)
+                {
+                    <option value="@course.Id">@course.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+    </EditForm>
+</div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private RatingEdit model { get; set; }
+    private IEnumerable<CourseListItem> courses { get; set; }
+    private string errorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = await http.GetFromJsonAsync<RatingEdit>($"/api/rating/{Id}");
+        courses = await http.GetFromJsonAsync<IEnumerable<CourseListItem>>("/api/course");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createRating = await http.PutAsJsonAsync<RatingEdit>($"/api/rating/edit/{Id}", model);
+        if (createRating.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo($"/rating/{Id}");
+        }
+        else
+        {
+            errorMessage = "Could not update your rating at this time. Please try again.";
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}
+
+

@@ -1,0 +1,62 @@
+﻿@page "/course/{CourseId:int}/prices"
+@using GolfCourseMVC.Shared.Models.Course
+@using GolfCourseMVC.Shared.Models.Price
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient http
+
+@if (Course == null)
+{
+    <h3>Prices By Course</h3>
+}
+else
+{
+<h3>Prices for @Course.Name</h3>
+}
+
+<a href="/price/create">Enter New Price</a>
+
+@if (_prices == null)
+{
+    <p><em>Loading...</em></p>
+}
+
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Amount Paid</th>
+                <th>Tee Time</th>
+                <th>Course</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var price in _prices)
+            {
+                <tr>
+                    <td>@price.AmountPaid.ToString("C0")</td>
+                    <td>@price.Time</td>
+                    <td>@price.CourseName</td>
+                    <td><a href=@($"price/{price.Id}")>Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+                    <a href=@($"/course/id/{CourseId}")>Back to Course Details</a>
+}
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+    private IEnumerable<PriceListItem> _prices;
+    public CourseListItem Course { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Course = await http.GetFromJsonAsync<CourseListItem>($"/api/course/id/{CourseId}");
+        _prices = await http.GetFromJsonAsync<List<PriceListItem>>($"/api/price/course/{CourseId}");
+    }
+}

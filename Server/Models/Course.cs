@@ -26,7 +26,7 @@ namespace GolfCourseMVC.Server.Models
         }
         public double Value
         {
-            get { return Score / Cost * 100; }
+            get { return Score > 0 && Cost > 0 ? Score / Cost * 100 : 0; }
         }
         
         public virtual List<Rating> Ratings { get; set; } = new List<Rating>();

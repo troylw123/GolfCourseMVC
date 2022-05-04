@@ -19,9 +19,20 @@
                 <span>Rating #@Rating.Id</span>
             </div>
             <div class="card-body">
-                <h4 class="card-title">Score: "@Rating.Score"</h4>
-                <p class="card-text">Course: @Rating.CourseName</p>
-                <p class="card-text">Comment: @Rating.Comment</p>
+                <table class="table">
+                    <tr>
+                        <th>Score:</th>
+                        <td>@Rating.Score</td>
+                    </tr>
+                    <tr>
+                        <th>Course:</th>
+                        <td>@Rating.CourseName</td>
+                    </tr>
+                    <tr>
+                        <th>Comment: </th>
+                        <td><q>@Rating.Comment</q></td>
+                    </tr>
+                </table>
             </div>
             <div class="card-footer text-muted d-flex justify-content-between">
                 <span class="text-left">Entered: @Rating.Date</span>

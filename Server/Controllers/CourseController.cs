@@ -46,7 +46,6 @@ namespace GolfCourseMVC.Server.Controllers
         public async Task<IActionResult> Index()
         {
             if (!SetUserIdInService()) return Unauthorized();
-            //var courses = await _context.Courses.FromSqlRaw("SELECT * FROM Courses").ToListAsync();
 
             var courses = await _courseService.GetAllCoursesAsync();
             return Ok(courses);

@@ -23,6 +23,10 @@
                         <td>@Course.Address</td>
                     </tr>
                     <tr>
+                        <th>Length: </th>
+                        <td>@Course.Length yards</td>
+                    </tr>
+                    <tr>
                         <th>Average Rating: </th>
                         <td>@Course.Score &nbsp; (Based on @Ratings.Count() Ratings)</td>
                     </tr>
@@ -35,7 +39,6 @@
                         <td class="font-weight-bold">@Course.Value.ToString("f1")</td>
                     </tr>
                 </table>
-                    <hr/>
                 
             </div>
             <div class="d-flex justify-content-center m-3">

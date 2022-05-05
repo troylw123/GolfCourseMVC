@@ -4,7 +4,7 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-image: url(/assets/golfclipart.jpg);
     background-size: cover;
-    
+    background-position: center;
 }
 
 a, .btn-link {
@@ -71,6 +71,7 @@ h1, h3 {
 
 .card {
     padding-bottom: 6px;
+    margin-bottom: 5%;
 /*    box-shadow: 5px 5px 5px black;*/
 }
 

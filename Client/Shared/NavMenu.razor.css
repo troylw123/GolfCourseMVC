@@ -1,5 +1,5 @@
 .navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(102, 0, 0, 0.1);
 }
 
 .top-row {
@@ -9,6 +9,10 @@
 
 .navbar-brand {
     font-size: 1.1rem;
+}
+
+.navbar-dark {
+    background-color: #660000;
 }
 
 .oi {
@@ -51,7 +55,7 @@
 }
 
 @media (min-width: 641px) {
-    .navbar-toggler {
+    .navbar-toggler, .top-row, .navbar {
         display: none;
     }
 

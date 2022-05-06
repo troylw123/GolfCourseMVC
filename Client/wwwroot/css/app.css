@@ -78,3 +78,36 @@ h1, h3 {
 th {
     background-color: rgba(130, 130, 130, 0.2);
 }
+
+#view {
+    background-color: white;
+    font-size: large;
+}
+
+.home {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.search {
+    width: 50%;
+}
+
+@media (max-width: 640.98px) {
+    html, body {
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position: center;
+        
+    }
+
+    .home {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .search {
+        width: 80%;
+    }
+
+}

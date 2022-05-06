@@ -6,18 +6,18 @@
 @attribute [Authorize]
 
 
-<div class="ml-5">
+<div class="home">
     <h1>Indy Value Golf</h1>
     <p>Find out which golf courses provide the most value in the Indianapolis area</p>
 
-    <div class="w-50">
+    <div class="search">
         <BlazoredTypeahead SearchMethod="@SearchCourses"
                            TValue="CourseListItem"
                            TItem="CourseListItem"
                            Value="selectedCourse"
                            ValueChanged="HandleSearch"
                            ValueExpression="@(()=> selectedCourse)"
-                           placeholder="Search For a Course By Name">
+                           placeholder="Search For a Course">
             <SelectedTemplate>
                 @context.Name
             </SelectedTemplate>
@@ -33,12 +33,6 @@
     <a href="/course" id="view">View All Courses</a><br />
 </div>
 
-
-<style>
-    #view {
-        background-color: white;
-    }
-</style>
 
 
 @code {
